@@ -910,7 +910,11 @@ const char * LittleFS_QSPIFlash::getMediaName(){
 #if defined(ARDUINO_TEENSY40)
 #define FLASH_SIZE  0x1F0000
 #define SECTOR_SIZE 32768
-#elif defined(ARDUINO_TEENSY41)
+#elif defined(ARDUINO_TEENSY41) || defined(ARDUINO_MIMXRT1060_EVKB)
+// MIMXRT1060-EVKB: 8 MB flash, memory map identical to Teensy 4.1.  The top
+// region (at 0x607C0000) is reserved for EEPROM emulation (see the core's
+// eeprom.c, which shares this ARDUINO_TEENSY41 || ARDUINO_MIMXRT1060_EVKB
+// case), so LittleFS_Program stays below FLASH_SIZE and does not collide.
 #define FLASH_SIZE  0x7C0000
 #define SECTOR_SIZE 65536
 #elif defined(ARDUINO_TEENSY_MICROMOD)
